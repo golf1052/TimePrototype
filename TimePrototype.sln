@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePrototype", "TimePrototype.csproj", "{60FD0E9F-9A67-4894-A523-C6D5721AF37C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePrototype", "TimePrototype/TimePrototype.csproj", "{60FD0E9F-9A67-4894-A523-C6D5721AF37C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLX", "..\GLX\GLX\GLX.csproj", "{9C9D3584-F3DC-4364-953C-F529C15806C4}"
 EndProject

@@ -62,7 +62,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GLX\GLX\GLX.csproj">
+    <ProjectReference Include="..\..\GLX\GLX\GLX.csproj">
       <Project>{9c9d3584-f3dc-4364-953c-f529c15806c4}</Project>
       <Name>GLX</Name>
     </ProjectReference>
