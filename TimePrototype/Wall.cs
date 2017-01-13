@@ -26,7 +26,7 @@ namespace TimePrototype
                 SortedDictionary<float, Action> moveFuncs = new SortedDictionary<float, Action>();
                 if (circle.rectangle.Right < sprite.drawRect.Center.X)
                 {
-                    circle.jumpState = Circle.JumpStates.Wall;
+                    circle.jumpState = Circle.JumpStates.WallRight;
                     float distance = Math.Abs(circle.position.X - (sprite.drawRect.Left - circle.tex.Height / 2f));
                     moveFuncs.Add(distance, () =>
                     {
@@ -35,12 +35,13 @@ namespace TimePrototype
                             circle.storedXVelocity = circle.velocity.X;
                         }
                         circle.velocity.X = 0;
+                        circle.velocity.Y /= 1.5f;
                         circle.position.X = sprite.drawRect.Left - circle.tex.Height / 2f;
                     });
                 }
                 else if (circle.rectangle.Left > sprite.drawRect.Center.X)
                 {
-                    circle.jumpState = Circle.JumpStates.Wall;
+                    circle.jumpState = Circle.JumpStates.WallLeft;
                     float distance = Math.Abs(circle.position.X - (sprite.drawRect.Right + circle.tex.Height / 2f));
                     moveFuncs.Add(distance, () =>
                     {
@@ -49,6 +50,7 @@ namespace TimePrototype
                             circle.storedXVelocity = circle.velocity.X;
                         }
                         circle.velocity.X = 0;
+                        circle.velocity.Y /= 4;
                         circle.position.X = sprite.drawRect.Right + circle.tex.Height / 2f;
                     });
                 }

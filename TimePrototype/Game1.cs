@@ -60,16 +60,16 @@ namespace TimePrototype
             circle.position = new Vector2(400);
 
             floor = new Wall(graphics);
-            floor.sprite.drawRect = new Rectangle(0, 0, 500, 25);
+            floor.sprite.drawRect = new Rectangle(0, 0, 1000, 100);
             floor.sprite.position = new Vector2(100, 425);
 
             wall = new Wall(graphics);
-            wall.sprite.drawRect = new Rectangle(0, 0, 25, 500);
+            wall.sprite.drawRect = new Rectangle(0, 0, 50, 500);
             wall.sprite.position = new Vector2(500, 0);
 
             wall2 = new Wall(graphics);
-            wall2.sprite.drawRect = new Rectangle(0, 0, 25, 200);
-            wall2.sprite.position = new Vector2(400, 100);
+            wall2.sprite.drawRect = new Rectangle(0, 0, 50, 400);
+            wall2.sprite.position = new Vector2(300, -50);
         }
 
         /// <summary>
@@ -102,38 +102,53 @@ namespace TimePrototype
 
             keyboardState = Keyboard.GetState();
 
-            float gravity = 0.1f;
+            float gravity = 0.6f;
 
             if (circle.jumpState == Circle.JumpStates.Ground)
             {
-                circle.velocity.X *= 0.87f;
+                circle.velocity.X *= 0.8f;
             }
             else
             {
-                circle.velocity.X *= 0.95f;
+                circle.velocity.X *= 0.8f;
             }
 
-            circle.velocity.Y += gravity;
+            Console.WriteLine(circle.jumpState);
+
+            if (circle.jumpState == Circle.JumpStates.WallLeft
+                || circle.jumpState == Circle.JumpStates.WallRight)
+            {
+                circle.velocity.Y += gravity/1.5f;
+            }
+            else 
+            {
+                circle.velocity.Y += gravity;
+            }
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                circle.velocity.X -= 0.5f;
+                circle.velocity.X -= 1.25f;
             }
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
-                circle.velocity.X += 0.5f;
+                circle.velocity.X += 1.25f;
             }
 
             if (IsKeyDownAndsUp(Keys.Space))
             {
                 if (circle.jumpState == Circle.JumpStates.Ground)
                 {
-                    circle.velocity.Y -= 5.0f;
+                    circle.velocity.Y -= 14.5f;
                 }
-                else if (circle.jumpState == Circle.JumpStates.Wall)
+                else if (circle.jumpState == Circle.JumpStates.WallRight)
                 {
-                    circle.velocity.Y -= 5.0f;
-                    circle.velocity.X = circle.storedXVelocity * -1;
+                    circle.velocity.Y = -10.0f;
+                    circle.velocity.X = -12f;
+                }
+                else if (circle.jumpState == Circle.JumpStates.WallLeft)
+                {
+                    circle.velocity.Y = -10.0f;
+                    circle.velocity.X = 12f;
                 }
                 circle.jumpState = Circle.JumpStates.Air;
             }
@@ -143,8 +158,9 @@ namespace TimePrototype
                 circle.position += Vector2.Normalize(circle.velocity) * 100;
             }
 
-            circle.velocity.X = MathHelper.Clamp(circle.velocity.X, -5, 5);
-            
+            circle.velocity.X = MathHelper.Clamp(circle.velocity.X, -100, 100);
+            circle.velocity.Y = MathHelper.Clamp(circle.velocity.Y, -50, 50);
+
             circle.Update(gameTime);
             floor.Update(gameTime, circle);
             wall.Update(gameTime, circle);

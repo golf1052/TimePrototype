@@ -13,7 +13,8 @@ namespace TimePrototype
         public enum JumpStates
         {
             Ground,
-            Wall,
+            WallRight,
+            WallLeft,
             Air
         }
 
