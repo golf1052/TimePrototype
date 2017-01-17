@@ -20,14 +20,14 @@ namespace TimePrototype
         KeyboardState keyboardState;
         KeyboardState previousKeyboardState;
 
-        Wall floor;
-        Wall wall;
-        Wall wall2;
+        Walls walls;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1900;
+            graphics.PreferredBackBufferHeight = 1000;
         }
 
         /// <summary>
@@ -56,20 +56,29 @@ namespace TimePrototype
             world.gameStates[MainGame].AddDraw(MainDraw);
             world.ActivateGameState(MainGame);
 
-            circle = new Circle(Content.Load<Texture2D>("circle"));
-            circle.position = new Vector2(400);
+            circle = new Circle(Content.Load<Texture2D>("circle"), Content.Load<Texture2D>("future"));
+            circle.position = new Vector2(300, 400);
 
-            floor = new Wall(graphics);
-            floor.sprite.drawRect = new Rectangle(0, 0, 1000, 100);
-            floor.sprite.position = new Vector2(100, 425);
+            walls = new Walls(graphics);
 
-            wall = new Wall(graphics);
-            wall.sprite.drawRect = new Rectangle(0, 0, 50, 500);
-            wall.sprite.position = new Vector2(500, 0);
-
-            wall2 = new Wall(graphics);
-            wall2.sprite.drawRect = new Rectangle(0, 0, 50, 400);
-            wall2.sprite.position = new Vector2(300, -50);
+            // start floor
+            walls.Create(new Vector2(600, 100), new Vector2(0, 900));
+            // jump to other section floor
+            walls.Create(new Vector2(1000, 100), new Vector2(900, 900));
+            // right wall
+            walls.Create(new Vector2(500, 1000), new Vector2(1800, 0));
+            // end block
+            walls.Create(new Vector2(100, 300), new Vector2(1700, 600));
+            // mid block
+            walls.Create(new Vector2(100, 300), new Vector2(1600, 300));
+            // top block
+            walls.Create(new Vector2(100, 300), new Vector2(1700, 0));
+            // top right floor
+            walls.Create(new Vector2(1000, 25), new Vector2(900, 275));
+            // top left floor
+            walls.Create(new Vector2(600, 25), new Vector2(0, 275));
+            // shaft left wall
+            walls.Create(new Vector2(25, 550), new Vector2(1575, 300));
         }
 
         /// <summary>
@@ -162,9 +171,7 @@ namespace TimePrototype
             circle.velocity.Y = MathHelper.Clamp(circle.velocity.Y, -50, 50);
 
             circle.Update(gameTime);
-            floor.Update(gameTime, circle);
-            wall.Update(gameTime, circle);
-            wall2.Update(gameTime, circle);
+            walls.Update(gameTime, circle);
 
             previousKeyboardState = keyboardState;
 
@@ -192,10 +199,8 @@ namespace TimePrototype
         public void MainDraw()
         {
             world.BeginDraw();
+            world.Draw(walls.Draw);
             world.Draw(circle.Draw);
-            world.Draw(floor.Draw);
-            world.Draw(wall.Draw);
-            world.Draw(wall2.Draw);
             world.EndDraw();
         }
     }
