@@ -23,7 +23,7 @@ namespace TimePrototype
         public void Create(Vector2 size, Vector2 position)
         {
             Wall wall = new Wall(graphics);
-            wall.sprite.drawRect = new Rectangle(0, 0, (int)size.X, (int)size.Y);
+            wall.sprite.DrawSize = size;
             wall.sprite.position = position;
             walls.Add(wall);
         }

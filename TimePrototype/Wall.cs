@@ -21,13 +21,13 @@ namespace TimePrototype
 
         public void Update(GameTimeWrapper gameTime, Circle circle)
         {
-            if (circle.rectangle.Intersects(sprite.drawRect))
+            if (circle.rectangle.Intersects(sprite.rectangle))
             {
                 SortedDictionary<float, Action> moveFuncs = new SortedDictionary<float, Action>();
-                if (circle.rectangle.Right < sprite.drawRect.Center.X)
+                if (circle.rectangle.Right < sprite.rectangle.Center.X)
                 {
                     circle.jumpState = Circle.JumpStates.WallRight;
-                    float distance = Math.Abs(circle.position.X - (sprite.drawRect.Left - circle.tex.Height / 2f));
+                    float distance = Math.Abs(circle.position.X - (sprite.rectangle.Left - circle.tex.Height / 2f));
                     moveFuncs.Add(distance, () =>
                     {
                         if (circle.velocity.X != 0)
@@ -36,13 +36,13 @@ namespace TimePrototype
                         }
                         circle.velocity.X = 0;
                         circle.velocity.Y /= 1.5f;
-                        circle.position.X = sprite.drawRect.Left - circle.tex.Height / 2f;
+                        circle.position.X = sprite.rectangle.Left - circle.tex.Height / 2f;
                     });
                 }
-                else if (circle.rectangle.Left > sprite.drawRect.Center.X)
+                else if (circle.rectangle.Left > sprite.rectangle.Center.X)
                 {
                     circle.jumpState = Circle.JumpStates.WallLeft;
-                    float distance = Math.Abs(circle.position.X - (sprite.drawRect.Right + circle.tex.Height / 2f));
+                    float distance = Math.Abs(circle.position.X - (sprite.rectangle.Right + circle.tex.Height / 2f));
                     moveFuncs.Add(distance, () =>
                     {
                         if (circle.velocity.X != 0)
@@ -51,28 +51,28 @@ namespace TimePrototype
                         }
                         circle.velocity.X = 0;
                         circle.velocity.Y /= 4;
-                        circle.position.X = sprite.drawRect.Right + circle.tex.Height / 2f;
+                        circle.position.X = sprite.rectangle.Right + circle.tex.Height / 2f;
                     });
                 }
 
-                if (circle.rectangle.Bottom < sprite.drawRect.Center.Y)
+                if (circle.rectangle.Bottom < sprite.rectangle.Center.Y)
                 {
                     circle.jumpState = Circle.JumpStates.Ground;
-                    float distance = Math.Abs(circle.position.Y - (sprite.drawRect.Top - circle.tex.Height / 2f));
+                    float distance = Math.Abs(circle.position.Y - (sprite.rectangle.Top - circle.tex.Height / 2f));
                     moveFuncs.Add(distance, () =>
                     {
                         circle.velocity.Y = 0;
-                        circle.position.Y = sprite.drawRect.Top - circle.tex.Height / 2f;
+                        circle.position.Y = sprite.rectangle.Top - circle.tex.Height / 2f;
                     });
                 }
-                else if (circle.rectangle.Top < sprite.drawRect.Center.Y)
+                else if (circle.rectangle.Top < sprite.rectangle.Center.Y)
                 {
                     circle.jumpState = Circle.JumpStates.Ground;
-                    float distance = Math.Abs(circle.position.Y - (sprite.drawRect.Bottom + circle.tex.Height / 2f));
+                    float distance = Math.Abs(circle.position.Y - (sprite.rectangle.Bottom + circle.tex.Height / 2f));
                     moveFuncs.Add(distance, () =>
                     {
                         circle.velocity.Y = 0;
-                        circle.position.Y = sprite.drawRect.Bottom + circle.tex.Height / 2f;
+                        circle.position.Y = sprite.rectangle.Bottom + circle.tex.Height / 2f;
                     });
                 }
 

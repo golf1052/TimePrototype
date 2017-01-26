@@ -50,7 +50,7 @@ namespace TimePrototype
         protected override void LoadContent()
         {
             world = new World(graphics);
-            mainGameTime = new GameTimeWrapper(MainUpdate, this, 1);
+            mainGameTime = new GameTimeWrapper(MainUpdate, this, 2);
             world.AddGameState(MainGame, graphics);
             world.gameStates[MainGame].AddTime(mainGameTime);
             world.gameStates[MainGame].AddDraw(MainDraw);
@@ -79,6 +79,9 @@ namespace TimePrototype
             walls.Create(new Vector2(600, 25), new Vector2(0, 275));
             // shaft left wall
             walls.Create(new Vector2(25, 550), new Vector2(1575, 300));
+            // death floor
+            walls.Create(new Vector2(300, 500), new Vector2(600, 1000));
+            walls.Create(new Vector2(25, 550), new Vector2(1425, 300));
         }
 
         /// <summary>
@@ -107,9 +110,20 @@ namespace TimePrototype
 
         public void MainUpdate(GameTimeWrapper gameTime)
         {
-            world.gameStates[MainGame].UpdateCurrentCamera(gameTime);
+            world.CurrentCamera.Update(gameTime);
 
             keyboardState = Keyboard.GetState();
+            if (IsKeyDownAndsUp(Keys.Tab))
+            {
+                if (mainGameTime.GameSpeed == 1)
+                {
+                    mainGameTime.GameSpeed = 2;
+                }
+                else
+                {
+                    mainGameTime.GameSpeed = 1;
+                }
+            }
 
             float gravity = 0.6f;
 
